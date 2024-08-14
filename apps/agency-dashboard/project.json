@@ -1,0 +1,60 @@
+{
+  "name": "agency-dashboard",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/agency-dashboard",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/agency-dashboard",
+        "outputPath": "dist/apps/agency-dashboard"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "agency-dashboard:build",
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "agency-dashboard:build:development"
+        },
+        "production": {
+          "buildTarget": "agency-dashboard:build:production",
+          "port": 4200
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "agency-dashboard:build"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/agency-dashboard"],
+      "options": {
+        "jestConfig": "apps/agency-dashboard/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/shop/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}
