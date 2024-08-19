@@ -1,0 +1,9 @@
+{
+  "name": "agency-dashobard-ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/agency-dashboard/ui/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project agency-dashobard-ui --web",
+  "targets": {}
+}

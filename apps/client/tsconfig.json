@@ -19,7 +19,8 @@
     "types": [
       "jest",
       "node"
-    ]
+    ],
+    "skipLibCheck": true
   },
   "include": [
     "**/*.ts",
@@ -29,7 +30,8 @@
     "../../apps/client/.next/types/**/*.ts",
     "../../dist/apps/client/.next/types/**/*.ts",
     "next-env.d.ts",
-    "../../dist/apps/agency-dashboard/.next/types/**/*.ts"
+    "../../dist/apps/agency-dashboard/.next/types/**/*.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
