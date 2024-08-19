@@ -3,7 +3,6 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/agency-dashboard",
   "projectType": "application",
-  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/next:build",
@@ -23,29 +22,30 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "agency-dashboard:build",
-        "port": 4200
+        "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "agency-dashboard:build:development"
+          "buildTarget": "agency-dashboard:build:development",
+          "dev": true
         },
         "production": {
           "buildTarget": "agency-dashboard:build:production",
-          "port": 4200
+          "dev": false
         }
       }
     },
     "export": {
       "executor": "@nrwl/next:export",
       "options": {
-        "buildTarget": "agency-dashboard:build"
+        "buildTarget": "agency-dashboard:build:production"
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/agency-dashboard"],
       "options": {
-        "jestConfig": "apps/agency-dashboard/jest.config.js",
+        "jestConfig": "apps/agency-dashboard/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -53,8 +53,9 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/shop/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/agency-dashboard/**/*.{ts,tsx,js,jsx}"]
       }
     }
-  }
+  },
+  "tags": []
 }

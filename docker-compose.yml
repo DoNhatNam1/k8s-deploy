@@ -1,0 +1,120 @@
+x-common-args: &common-args
+  args:
+    NEXT_PUBLIC_FIREBASE_API_KEY: ${NEXT_PUBLIC_FIREBASE_API_KEY}
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}
+    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID}
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${NEXT_PUBLIC_FIREBASE_PROJECT_ID}
+    NEXT_PUBLIC_FIREBASE_APP_ID: ${NEXT_PUBLIC_FIREBASE_APP_ID}
+    NEXT_PUBLIC_FIREBASE_MESUREMENT_ID: ${NEXT_PUBLIC_FIREBASE_MESUREMENT_ID}
+    DOCKER_POSTGRES_PRISMA_AWS_URL: ${DOCKER_POSTGRES_PRISMA_AWS_URL}
+    NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH}
+    NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH}
+    NEXT_PUBLIC_CLIENT_HOSTNAME_PATH: ${NEXT_PUBLIC_CLIENT_HOSTNAME_PATH}
+    NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH}
+    COOKIES_TOKEN_NAME: ${COOKIES_TOKEN_NAME}
+    COOKIES_SIGNUP_STEP_ONE_DATA_NAME: ${COOKIES_SIGNUP_STEP_ONE_DATA_NAME}
+    SECRET_KEY: ${SECRET_KEY}
+
+x-common-environment: &common-environment
+  environment:
+    DOCKER_POSTGRES_PRISMA_AWS_URL: ${DOCKER_POSTGRES_PRISMA_AWS_URL}
+    NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH}
+    NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH}
+    NEXT_PUBLIC_CLIENT_HOSTNAME_PATH: ${NEXT_PUBLIC_CLIENT_HOSTNAME_PATH}
+    NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH}
+    COOKIES_TOKEN_NAME: ${COOKIES_TOKEN_NAME}
+    COOKIES_SIGNUP_STEP_ONE_DATA_NAME: ${COOKIES_SIGNUP_STEP_ONE_DATA_NAME}
+    SECRET_KEY: ${SECRET_KEY}
+
+services:
+  nx_nextjs_agency-dashboard_c:
+    container_name: nx_nextjs_agency-dashboard_c
+    image: donhatnamdocker/nx_nextjs_agency-dashboard_service:v14.2.3-Beta
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.agency-dashboard
+      args:
+        NEXT_PUBLIC_FIREBASE_API_KEY: ${NEXT_PUBLIC_FIREBASE_API_KEY}
+        NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}
+        NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}
+        NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID}
+        NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${NEXT_PUBLIC_FIREBASE_PROJECT_ID}
+        NEXT_PUBLIC_FIREBASE_APP_ID: ${NEXT_PUBLIC_FIREBASE_APP_ID}
+        NEXT_PUBLIC_FIREBASE_MESUREMENT_ID: ${NEXT_PUBLIC_FIREBASE_MESUREMENT_ID}
+        DOCKER_POSTGRES_PRISMA_AWS_URL: ${DOCKER_POSTGRES_PRISMA_AWS_URL}
+        NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH}
+        NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH}
+        NEXT_PUBLIC_CLIENT_HOSTNAME_PATH: ${NEXT_PUBLIC_CLIENT_HOSTNAME_PATH}
+        NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH: ${NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH}
+        COOKIES_TOKEN_NAME: ${COOKIES_TOKEN_NAME}
+        COOKIES_SIGNUP_STEP_ONE_DATA_NAME: ${COOKIES_SIGNUP_STEP_ONE_DATA_NAME}
+        SECRET_KEY: ${SECRET_KEY}
+    restart: unless-stopped
+    <<: *common-environment
+    ports:
+      - "4200:4200"
+    volumes:
+      - web-data:/app/agency-dashboard
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${NEXT_PUBLIC_AGENCY_DASHBOARD_HOSTNAME_PATH}/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  nx_nextjs_admin-dashboard_c:
+    container_name: nx_nextjs_admin-dashboard_c
+    image: donhatnamdocker/nx_nextjs_admin-dashboard_service:v14.2.3-Beta
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.admin-dashboard
+      <<: *common-args
+    restart: unless-stopped
+    <<: *common-environment
+    ports:
+      - "4201:4201"
+    volumes:
+      - web-data:/app/admin-dashboard
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${NEXT_PUBLIC_ADMIN_DASHBOARD_HOSTNAME_PATH}/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  nx_nextjs_client_c:
+    container_name: nx_nextjs_client_c
+    image: donhatnamdocker/nx_nextjs_client_service:v14.2.3-Beta
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.client
+      <<: *common-args
+    restart: unless-stopped
+    <<: *common-environment
+    ports:
+      - "4202:4202"
+    volumes:
+      - web-data:/app/client-data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${NEXT_PUBLIC_CLIENT_HOSTNAME_PATH}/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  nx_nextjs_seller-dashboard_c:
+    container_name: nx_nextjs_seller-dashboard_c
+    image: donhatnamdocker/nx_nextjs_seller-dashboard_service:v14.2.3-Beta
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.seller-dashboard
+      <<: *common-args
+    restart: unless-stopped
+    <<: *common-environment
+    ports:
+      - "4203:4203"
+    volumes:
+      - web-data:/app/seller-data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${NEXT_PUBLIC_SELLER_DASHBOARD_HOSTNAME_PATH}/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+volumes:
+  web-data:
+    name: ${VOLUME_NAME}

@@ -10,8 +10,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "root": "apps/agency-dashboard",
-        "outputPath": "dist/apps/agency-dashboard"
+        "root": "apps/client",
+        "outputPath": "dist/apps/client"
       },
       "configurations": {
         "development": {},
@@ -22,16 +22,16 @@
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "agency-dashboard:build",
+        "buildTarget": "client:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "agency-dashboard:build:development",
+          "buildTarget": "client:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "agency-dashboard:build:production",
+          "buildTarget": "client:build:production",
           "dev": false
         }
       }
@@ -39,14 +39,14 @@
     "export": {
       "executor": "@nrwl/next:export",
       "options": {
-        "buildTarget": "agency-dashboard:build:production"
+        "buildTarget": "client:build:production"
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/agency-dashboard"],
+      "outputs": ["coverage/apps/client"],
       "options": {
-        "jestConfig": "apps/agency-dashboard/jest.config.ts",
+        "jestConfig": "apps/client/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -54,7 +54,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/agency-dashboard/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/client/**/*.{ts,tsx,js,jsx}"]
       }
     }
   }

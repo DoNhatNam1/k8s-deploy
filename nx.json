@@ -56,6 +56,130 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  },
+  "release": {
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
+    }
+  },
+  "projects": {
+    "agency-dashboard": {
+      "root": "apps/agency-dashboard",
+      "sourceRoot": "apps/agency-dashboard/src",
+      "projectType": "application",
+      "targets": {
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "rimraf apps/agency-dashboard/.next"
+            ],
+            "parallel": false
+          }
+        },
+        "dev": {
+          "executor": "@nrwl/next:dev-server",
+          "options": {
+            "buildTarget": "agency-dashboard:build"
+          },
+          "dependsOn": [
+            {
+              "target": "clean",
+              "projects": "self"
+            }
+          ]
+        }
+      }
+    },
+    "admin-dashboard": {
+      "root": "apps/admin-dashboard",
+      "sourceRoot": "apps/admin-dashboard/src",
+      "projectType": "application",
+      "targets": {
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "rimraf apps/admin-dashboard/.next"
+            ],
+            "parallel": false
+          }
+        },
+        "dev": {
+          "executor": "@nrwl/next:dev-server",
+          "options": {
+            "buildTarget": "admin-dashboard:build"
+          },
+          "dependsOn": [
+            {
+              "target": "clean",
+              "projects": "self"
+            }
+          ]
+        }
+      }
+    },
+    "client": {
+      "root": "apps/client",
+      "sourceRoot": "apps/client/src",
+      "projectType": "application",
+      "targets": {
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "rimraf apps/client/.next"
+            ],
+            "parallel": false
+          }
+        },
+        "dev": {
+          "executor": "@nrwl/next:dev-server",
+          "options": {
+            "buildTarget": "client:build"
+          },
+          "dependsOn": [
+            {
+              "target": "clean",
+              "projects": "self"
+            }
+          ]
+        }
+      }
+    },
+    "seller-dashboard": {
+      "root": "apps/seller-dashboard",
+      "sourceRoot": "apps/seller-dashboard/src",
+      "projectType": "application",
+      "targets": {
+        "clean": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "rimraf apps/seller-dashboard/.next"
+            ],
+            "parallel": false
+          }
+        },
+        "dev": {
+          "executor": "@nrwl/next:dev-server",
+          "options": {
+            "buildTarget": "seller-dashboard:build"
+          },
+          "dependsOn": [
+            {
+              "target": "clean",
+              "projects": "self"
+            }
+          ]
+        }
+      }
     }
   }
 }
